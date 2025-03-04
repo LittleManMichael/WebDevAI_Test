@@ -17,25 +17,35 @@ const ConversationSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Project' 
   },
-  agentId: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Agent' 
-  },
   taskId: { 
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Task' 
   },
-  timestamp: { 
+  participants: [{ 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: 'Agent' 
+  }],
+  pinned: {
+    type: Boolean,
+    default: false
+  },
+  createdAt: { 
     type: Date, 
     default: Date.now 
   },
-  metadata: {
-    // Additional data specific to the activity type
-    type: mongoose.Schema.Types.Mixed
+  updatedAt: { 
+    type: Date, 
+    default: Date.now 
   }
 });
 
-// Index for faster querying of recent activities
-ActivitySchema.index({ timestamp: -1 });
+// Index for faster querying of recent conversations
+ConversationSchema.index({ updatedAt: -1 });
 
-module.exports = mongoose.model('Activity', ActivitySchema);
+// Update the updatedAt field on save
+ConversationSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
+});
+
+module.exports = mongoose.model('Conversation', ConversationSchema);

@@ -1,0 +1,484 @@
+<!-- public/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agent Workforce - Dashboard</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Main navigation -->
+    <nav class="main-nav">
+      <div class="logo">
+        <img src="/img/logo.svg" alt="AI Agent Workforce">
+        <h1>AI Agent Workforce</h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/dashboard.html" class="active">Dashboard</a></li>
+        <li><a href="/agent-management.html">Agents</a></li>
+        <li><a href="/projects.html">Projects</a></li>
+        <li><a href="/conversations.html">Conversations</a></li>
+        <li><a href="/settings.html">Settings</a></li>
+      </ul>
+      <div class="user-menu">
+        <img src="/img/user-avatar.png" alt="User" class="user-avatar">
+        <span class="user-name">Admin</span>
+      </div>
+    </nav>
+    
+    <!-- Main content area -->
+    <div class="content-area">
+      <!-- Dashboard header -->
+      <header class="dashboard-header">
+        <div class="header-content">
+          <h1>Dashboard</h1>
+          <p class="subtitle">Overview of your AI agent workforce and projects</p>
+        </div>
+        <div class="header-actions">
+          <button id="create-project-btn" class="btn primary">+ New Project</button>
+          <button class="btn secondary">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            Search
+          </button>
+        </div>
+      </header>
+      
+      <!-- Dashboard content -->
+      <div class="dashboard-content">
+        <!-- Stats overview -->
+        <section class="stats-overview">
+          <div class="stat-card">
+            <div class="stat-icon projects">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path><path d="M3 9V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4"></path></svg>
+            </div>
+            <div class="stat-details">
+              <h3>Active Projects</h3>
+              <p class="stat-value">3</p>
+              <p class="stat-change positive">+1 this month</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon agents">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <div class="stat-details">
+              <h3>Active Agents</h3>
+              <p class="stat-value">6</p>
+              <p class="stat-change neutral">No change</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon tasks">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+            </div>
+            <div class="stat-details">
+              <h3>Completed Tasks</h3>
+              <p class="stat-value">24</p>
+              <p class="stat-change positive">+8 this week</p>
+            </div>
+          </div>
+          
+          <div class="stat-card">
+            <div class="stat-icon messages">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            </div>
+            <div class="stat-details">
+              <h3>AI Messages</h3>
+              <p class="stat-value">127</p>
+              <p class="stat-change positive">+42 today</p>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Active projects -->
+        <section class="active-projects">
+          <div class="section-header">
+            <h2>Active Projects</h2>
+            <a href="/projects.html" class="view-all">View All</a>
+          </div>
+          
+          <div class="project-cards">
+            <div class="project-card">
+              <div class="project-header">
+                <h3>E-commerce Website</h3>
+                <span class="status-badge in-progress">In Progress</span>
+              </div>
+              <p class="project-description">Building a full-featured online store with product catalog, shopping cart, and payment processing.</p>
+              <div class="project-meta">
+                <div class="meta-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <span>Deadline: Apr 15</span>
+                </div>
+                <div class="meta-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                  <span>Tasks: 12/20</span>
+                </div>
+              </div>
+              <div class="project-agents">
+                <div class="agents-list">
+                  <img src="/img/agents/project-manager.png" alt="Project Manager" title="Project Manager">
+                  <img src="/img/agents/architect.png" alt="Architect" title="Architect">
+                  <img src="/img/agents/frontend.png" alt="Frontend" title="Frontend">
+                  <img src="/img/agents/backend.png" alt="Backend" title="Backend">
+                </div>
+                <a href="/conversations.html?project=ecommerce" class="btn text-btn">View Conversation</a>
+              </div>
+              <div class="progress-bar">
+                <div class="progress" style="width: 60%;"></div>
+              </div>
+            </div>
+            
+            <div class="project-card">
+              <div class="project-header">
+                <h3>Blog Redesign</h3>
+                <span class="status-badge review">Under Review</span>
+              </div>
+              <p class="project-description">Modernizing a blog platform with responsive design, dark mode, and improved typography.</p>
+              <div class="project-meta">
+                <div class="meta-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <span>Deadline: Mar 22</span>
+                </div>
+                <div class="meta-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                  <span>Tasks: 8/10</span>
+                </div>
+              </div>
+              <div class="project-agents">
+                <div class="agents-list">
+                  <img src="/img/agents/project-manager.png" alt="Project Manager" title="Project Manager">
+                  <img src="/img/agents/frontend.png" alt="Frontend" title="Frontend">
+                  <img src="/img/agents/content.png" alt="Content" title="Content">
+                </div>
+                <a href="/conversations.html?project=blog-redesign" class="btn text-btn">View Conversation</a>
+              </div>
+              <div class="progress-bar">
+                <div class="progress" style="width: 85%;"></div>
+              </div>
+            </div>
+            
+            <div class="project-card">
+              <div class="project-header">
+                <h3>Admin Dashboard</h3>
+                <span class="status-badge planning">Planning</span>
+              </div>
+              <p class="project-description">Creating an analytics dashboard with user management, data visualization, and reporting tools.</p>
+              <div class="project-meta">
+                <div class="meta-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                  <span>Deadline: May 10</span>
+                </div>
+                <div class="meta-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                  <span>Tasks: 2/15</span>
+                </div>
+              </div>
+              <div class="project-agents">
+                <div class="agents-list">
+                  <img src="/img/agents/project-manager.png" alt="Project Manager" title="Project Manager">
+                  <img src="/img/agents/architect.png" alt="Architect" title="Architect">
+                </div>
+                <a href="/conversations.html?project=admin-dashboard" class="btn text-btn">View Conversation</a>
+              </div>
+              <div class="progress-bar">
+                <div class="progress" style="width: 15%;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Recent activity -->
+        <section class="recent-activity">
+          <div class="section-header">
+            <h2>Recent Activity</h2>
+            <button class="btn small-btn">Refresh</button>
+          </div>
+          
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-icon check">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              </div>
+              <div class="activity-details">
+                <h4>Task Completed</h4>
+                <p>Frontend Agent completed "Design Product Page UI Components"</p>
+                <span class="activity-time">10 minutes ago</span>
+              </div>
+            </div>
+            
+            <div class="activity-item">
+              <div class="activity-icon message">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+              </div>
+              <div class="activity-details">
+                <h4>New Conversation</h4>
+                <p>Project Manager initiated discussion about "Shopping Cart Implementation"</p>
+                <span class="activity-time">42 minutes ago</span>
+              </div>
+            </div>
+            
+            <div class="activity-item">
+              <div class="activity-icon start">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              </div>
+              <div class="activity-details">
+                <h4>Task Started</h4>
+                <p>Backend Agent started working on "Database Schema Design"</p>
+                <span class="activity-time">1 hour ago</span>
+              </div>
+            </div>
+            
+            <div class="activity-item">
+              <div class="activity-icon create">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+              </div>
+              <div class="activity-details">
+                <h4>Project Created</h4>
+                <p>You created a new project "Admin Dashboard"</p>
+                <span class="activity-time">3 hours ago</span>
+              </div>
+            </div>
+            
+            <div class="activity-item">
+              <div class="activity-icon file">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+              </div>
+              <div class="activity-details">
+                <h4>File Generated</h4>
+                <p>Architect Agent created "System Architecture.pdf"</p>
+                <span class="activity-time">5 hours ago</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+        <!-- Agent workload -->
+        <section class="agent-workload">
+          <div class="section-header">
+            <h2>Agent Workload</h2>
+            <button class="btn small-btn">View Details</button>
+          </div>
+          
+          <div class="workload-grid">
+            <div class="agent-workload-card">
+              <div class="agent-info">
+                <img src="/img/agents/project-manager.png" alt="Project Manager">
+                <div>
+                  <h3>Project Manager</h3>
+                  <p>Coordination & Planning</p>
+                </div>
+              </div>
+              <div class="workload-data">
+                <div class="workload-stat">
+                  <span class="stat-label">Active Tasks</span>
+                  <span class="stat-value">4</span>
+                </div>
+                <div class="workload-stat">
+                  <span class="stat-label">Messages</span>
+                  <span class="stat-value">35</span>
+                </div>
+                <div class="workload-stat">
+                  <span class="stat-label">Projects</span>
+                  <span class="stat-value">3</span>
+                </div>
+              </div>
+              <div class="workload-bar">
+                <div class="workload-progress" style="width: 85%;"></div>
+                <span class="workload-label">85% Capacity</span>
+              </div>
+            </div>
+            
+            <div class="agent-workload-card">
+              <div class="agent-info">
+                <img src="/img/agents/architect.png" alt="Architect">
+                <div>
+                  <h3>Architect</h3>
+                  <p>System Design</p>
+                </div>
+              </div>
+              <div class="workload-data">
+                <div class="workload-stat">
+                  <span class="stat-label">Active Tasks</span>
+                  <span class="stat-value">2</span>
+                </div>
+                <div class="workload-stat">
+                  <span class="stat-label">Messages</span>
+                  <span class="stat-value">18</span>
+                </div>
+                <div class="workload-stat">
+                  <span class="stat-label">Projects</span>
+                  <span class="stat-value">2</span>
+                </div>
+              </div>
+              <div class="workload-bar">
+                <div class="workload-progress" style="width: 50%;"></div>
+                <span class="workload-label">50% Capacity</span>
+              </div>
+            </div>
+            
+            <div class="agent-workload-card">
+              <div class="agent-info">
+                <img src="/img/agents/frontend.png" alt="Frontend">
+                <div>
+                  <h3>Frontend</h3>
+                  <p>UI Development</p>
+                </div>
+              </div>
+              <div class="workload-data">
+                <div class="workload-stat">
+                  <span class="stat-label">Active Tasks</span>
+                  <span class="stat-value">3</span>
+                </div>
+                <div class="workload-stat">
+                  <span class="stat-label">Messages</span>
+                  <span class="stat-value">29</span>
+                </div>
+                <div class="workload-stat">
+                  <span class="stat-label">Projects</span>
+                  <span class="stat-value">2</span>
+                </div>
+              </div>
+              <div class="workload-bar">
+                <div class="workload-progress" style="width: 70%;"></div>
+                <span class="workload-label">70% Capacity</span>
+              </div>
+            </div>
+            
+            <div class="agent-workload-card">
+              <div class="agent-info">
+                <img src="/img/agents/backend.png" alt="Backend">
+                <div>
+                  <h3>Backend</h3>
+                  <p>Server Development</p>
+                </div>
+              </div>
+              <div class="workload-data">
+                <div class="workload-stat">
+                  <span class="stat-label">Active Tasks</span>
+                  <span class="stat-value">2</span>
+                </div>
+                <div class="workload-stat">
+                  <span class="stat-label">Messages</span>
+                  <span class="stat-value">21</span>
+                </div>
+                <div class="workload-stat">
+                  <span class="stat-label">Projects</span>
+                  <span class="stat-value">1</span>
+                </div>
+              </div>
+              <div class="workload-bar">
+                <div class="workload-progress" style="width: 65%;"></div>
+                <span class="workload-label">65% Capacity</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Create Project Modal -->
+  <div id="create-project-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Create New Project</h2>
+        <button class="close-modal">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <form id="create-project-form">
+          <div class="form-group">
+            <label for="project-name">Project Name</label>
+            <input type="text" id="project-name" required placeholder="e.g. E-commerce Website">
+          </div>
+          
+          <div class="form-group">
+            <label for="project-description">Description</label>
+            <textarea id="project-description" rows="4" placeholder="Describe the project requirements and goals..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="project-deadline">Deadline</label>
+            <input type="date" id="project-deadline">
+          </div>
+          
+          <div class="form-group">
+            <label>Select Agents</label>
+            <div class="agent-selection">
+              <div class="agent-option">
+                <input type="checkbox" id="agent-project-manager" checked disabled>
+                <label for="agent-project-manager">
+                  <img src="/img/agents/project-manager.png" alt="Project Manager">
+                  <span>Project Manager</span>
+                </label>
+              </div>
+              
+              <div class="agent-option">
+                <input type="checkbox" id="agent-architect">
+                <label for="agent-architect">
+                  <img src="/img/agents/architect.png" alt="Architect">
+                  <span>Architect</span>
+                </label>
+              </div>
+              
+              <div class="agent-option">
+                <input type="checkbox" id="agent-frontend">
+                <label for="agent-frontend">
+                  <img src="/img/agents/frontend.png" alt="Frontend">
+                  <span>Frontend</span>
+                </label>
+              </div>
+              
+              <div class="agent-option">
+                <input type="checkbox" id="agent-backend">
+                <label for="agent-backend">
+                  <img src="/img/agents/backend.png" alt="Backend">
+                  <span>Backend</span>
+                </label>
+              </div>
+              
+              <div class="agent-option">
+                <input type="checkbox" id="agent-content">
+                <label for="agent-content">
+                  <img src="/img/agents/content.png" alt="Content">
+                  <span>Content</span>
+                </label>
+              </div>
+              
+              <div class="agent-option">
+                <input type="checkbox" id="agent-testing">
+                <label for="agent-testing">
+                  <img src="/img/agents/testing.png" alt="Testing">
+                  <span>Testing</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="project-requirements">Detailed Requirements</label>
+            <textarea id="project-requirements" rows="6" placeholder="Enter as much detail as possible about your project requirements..."></textarea>
+          </div>
+        </form>
+      </div>
+      
+      <div class="modal-footer">
+        <button class="btn secondary close-modal">Cancel</button>
+        <button id="start-project-btn" class="btn primary">Start Project</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Notification area -->
+  <div id="notification-area" class="notification-area"></div>
+  
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

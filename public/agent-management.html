@@ -1,0 +1,203 @@
+<!-- public/agent-management.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agent Workforce - Agent Management</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/agent-management.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Main navigation -->
+    <nav class="main-nav">
+      <div class="logo">
+        <img src="/img/logo.svg" alt="AI Agent Workforce">
+        <h1>AI Agent Workforce</h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/dashboard.html">Dashboard</a></li>
+        <li><a href="/agent-management.html" class="active">Agents</a></li>
+        <li><a href="/projects.html">Projects</a></li>
+        <li><a href="/conversations.html">Conversations</a></li>
+        <li><a href="/settings.html">Settings</a></li>
+      </ul>
+      <div class="user-menu">
+        <img src="/img/user-avatar.png" alt="User" class="user-avatar">
+        <span class="user-name">Admin</span>
+      </div>
+    </nav>
+    
+    <!-- Main content area -->
+    <div class="content-area">
+      <!-- Agent management section -->
+      <div class="agents-container">
+        <!-- Sidebar with agent list -->
+        <div class="agent-sidebar">
+          <div class="sidebar-header">
+            <h2>AI Agents</h2>
+            <button id="create-agent-btn" class="btn primary">+ New Agent</button>
+          </div>
+          
+          <div class="sidebar-content">
+            <div class="search-box">
+              <input type="text" placeholder="Search agents...">
+              <button class="search-btn">🔍</button>
+            </div>
+            
+            <div class="filter-options">
+              <select id="filter-role">
+                <option value="">All Roles</option>
+                <option value="Architect">Architect</option>
+                <option value="Frontend">Frontend</option>
+                <option value="Backend">Backend</option>
+                <option value="Content">Content</option>
+                <option value="Testing">Testing</option>
+                <option value="Project Manager">Project Manager</option>
+              </select>
+              
+              <select id="filter-model">
+                <option value="">All Models</option>
+                <option value="claude">Claude</option>
+                <option value="gpt">GPT</option>
+              </select>
+              
+              <select id="filter-status">
+                <option value="">All Status</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+              </select>
+            </div>
+            
+            <div id="agent-list" class="agent-list">
+              <!-- Agent list items will be inserted here dynamically -->
+              <div class="empty-state">
+                <p>No agents found. Create your first agent to get started.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Main content panel showing agent details -->
+        <div class="agent-details-panel">
+          <div id="agent-details" class="agent-details">
+            <!-- Agent details will be inserted here dynamically -->
+            <div class="empty-state">
+              <img src="/img/agent-illustration.svg" alt="Select an agent">
+              <h2>Select an agent to view details</h2>
+              <p>Or create a new agent using the button in the sidebar</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Create/Edit Agent Modal -->
+  <div id="agent-modal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="agent-modal-title">Create New Agent</h2>
+        <button class="close-modal">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <form id="agent-form">
+          <div class="form-group">
+            <label for="agent-name">Agent Name</label>
+            <input type="text" id="agent-name" required placeholder="e.g. Frontend Designer">
+          </div>
+          
+          <div class="form-group">
+            <label for="agent-role">Role</label>
+            <select id="agent-role" required>
+              <option value="">Select a role</option>
+              <option value="Architect">Architect</option>
+              <option value="Frontend">Frontend</option>
+              <option value="Backend">Backend</option>
+              <option value="Content">Content</option>
+              <option value="Testing">Testing</option>
+              <option value="Project Manager">Project Manager</option>
+              <option value="Custom">Custom Role...</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="agent-model">AI Model</label>
+            <select id="agent-model" required>
+              <option value="claude">Claude</option>
+              <option value="gpt">GPT-4</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="agent-system-prompt">System Prompt</label>
+            <textarea id="agent-system-prompt" rows="6" required placeholder="Instructions that define how the agent behaves..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label for="agent-expertise">Areas of Expertise</label>
+            <input type="text" id="agent-expertise" placeholder="e.g. HTML, CSS, UI design (comma separated)">
+          </div>
+          
+          <div class="form-group">
+            <label for="agent-communication-style">Communication Style</label>
+            <input type="text" id="agent-communication-style" placeholder="e.g. Technical, precise, detailed">
+          </div>
+          
+          <div class="form-group">
+            <label for="agent-output-format">Expected Output Format</label>
+            <input type="text" id="agent-output-format" placeholder="e.g. HTML/CSS code with explanations">
+          </div>
+          
+          <div class="form-group checkbox">
+            <input type="checkbox" id="agent-active" checked>
+            <label for="agent-active">Agent is active</label>
+          </div>
+        </form>
+      </div>
+      
+      <div class="modal-footer">
+        <button id="delete-agent-btn" class="btn danger">Delete Agent</button>
+        <button class="btn secondary close-modal">Cancel</button>
+        <button id="save-agent-btn" class="btn primary">Save Agent</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Test Agent Dialog -->
+  <div id="test-agent-dialog" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Test Agent: <span id="test-agent-name"></span></h2>
+        <button id="close-test-dialog" class="close-modal">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <form id="test-prompt-form">
+          <div class="form-group">
+            <label for="test-prompt">Enter a test prompt</label>
+            <textarea id="test-prompt" rows="4" placeholder="Type your test prompt here..."></textarea>
+          </div>
+          
+          <button type="submit" class="btn primary">Send Prompt</button>
+        </form>
+        
+        <div class="response-container">
+          <h3>Agent Response</h3>
+          <div id="test-response" class="test-response-area">
+            <p class="empty-state">Response will appear here after you send a prompt</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Notification area -->
+  <div id="notification-area" class="notification-area"></div>
+  
+  <!-- Scripts -->
+  <script src="/js/agent-management.js"></script>
+</body>
+</html>

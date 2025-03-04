@@ -1,0 +1,400 @@
+<!-- public/conversations.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Agent Workforce - Conversations</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/conversations.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Main navigation -->
+    <nav class="main-nav">
+      <div class="logo">
+        <img src="/img/logo.svg" alt="AI Agent Workforce">
+        <h1>AI Agent Workforce</h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="/dashboard.html">Dashboard</a></li>
+        <li><a href="/agent-management.html">Agents</a></li>
+        <li><a href="/projects.html">Projects</a></li>
+        <li><a href="/conversations.html" class="active">Conversations</a></li>
+        <li><a href="/settings.html">Settings</a></li>
+      </ul>
+      <div class="user-menu">
+        <img src="/img/user-avatar.png" alt="User" class="user-avatar">
+        <span class="user-name">Admin</span>
+      </div>
+    </nav>
+    
+    <!-- Main content area -->
+    <div class="content-area">
+      <!-- Conversations container -->
+      <div class="conversations-container">
+        <!-- Sidebar with conversation list -->
+        <div class="conversation-sidebar">
+          <div class="sidebar-header">
+            <h2>Conversations</h2>
+            <div class="view-controls">
+              <button class="btn icon-btn active" title="List View">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+              </button>
+              <button class="btn icon-btn" title="Grid View">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+              </button>
+            </div>
+          </div>
+          
+          <div class="sidebar-content">
+            <div class="search-box">
+              <input type="text" placeholder="Search conversations...">
+              <button class="search-btn">🔍</button>
+            </div>
+            
+            <div class="filter-options">
+              <select id="filter-project">
+                <option value="">All Projects</option>
+                <option value="project1">E-commerce Website</option>
+                <option value="project2">Blog Redesign</option>
+                <option value="project3">Admin Dashboard</option>
+              </select>
+              
+              <select id="filter-date">
+                <option value="">All Time</option>
+                <option value="today">Today</option>
+                <option value="yesterday">Yesterday</option>
+                <option value="week">This Week</option>
+                <option value="month">This Month</option>
+              </select>
+            </div>
+            
+            <div class="conversation-list">
+              <!-- Conversation list items will be inserted here dynamically -->
+              <div class="conversation-item active">
+                <div class="conversation-icon project">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path><path d="M3 9V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4"></path></svg>
+                </div>
+                <div class="conversation-details">
+                  <h3>E-commerce Website</h3>
+                  <p class="conversation-description">Project Planning Discussion</p>
+                  <div class="conversation-meta">
+                    <span class="conversation-time">2 min ago</span>
+                    <span class="message-count">12 messages</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="conversation-item">
+                <div class="conversation-icon direct">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"></path><path d="M3 7h18"></path><path d="M8 7v0"></path><path d="M7 14.5c1-1 2.5-1 2.5-1 .5 0 1 0 1.5.5"></path><path d="M7 18.5c.5-.5 2.5-.5 2.5-.5s2 0 2.5.5"></path><path d="M16.5 11a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"></path><path d="M18.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path><path d="M13.5 15a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"></path><path d="M2 18v3"></path><path d="M22 18v3"></path><path d="M22 11v2"></path><path d="M2 11v7"></path><rect x="2" y="7" width="20" height="16" rx="2"></rect></svg>
+                </div>
+                <div class="conversation-details">
+                  <h3>Frontend Designer</h3>
+                  <p class="conversation-description">UI Component Discussion</p>
+                  <div class="conversation-meta">
+                    <span class="conversation-time">10 min ago</span>
+                    <span class="message-count">5 messages</span>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="conversation-item">
+                <div class="conversation-icon task">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                </div>
+                <div class="conversation-details">
+                  <h3>Database Schema</h3>
+                  <p class="conversation-description">Task Collaboration</p>
+                  <div class="conversation-meta">
+                    <span class="conversation-time">1 hour ago</span>
+                    <span class="message-count">8 messages</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Main chat panel -->
+        <div class="chat-panel">
+          <div class="chat-header">
+            <div class="chat-title">
+              <h2>E-commerce Website</h2>
+              <p>Project Planning Discussion</p>
+            </div>
+            <div class="chat-actions">
+              <button class="btn icon-btn" title="Pin Conversation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"></path><path d="m11 12 5.5-5.5a1.5 1.5 0 1 0-2.12-2.12L8.88 9.88a4 4 0 0 0-1.17 2.83V21h5l.29-.29a1 1 0 0 0 0-1.42z"></path></svg>
+              </button>
+              <button class="btn icon-btn" title="Share Conversation">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path><polyline points="16 6 12 2 8 6"></polyline><line x1="12" y1="2" x2="12" y2="15"></line></svg>
+              </button>
+              <button class="btn icon-btn" title="Download Chat Log">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              </button>
+              <button class="btn icon-btn" title="View Information">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+              </button>
+            </div>
+          </div>
+          
+          <div class="chat-body">
+            <!-- Messages will be inserted here dynamically -->
+            <div class="message-group">
+              <div class="message-date-divider">
+                <span>Today</span>
+              </div>
+              
+              <div class="message system">
+                <div class="message-content">
+                  <p>Project "E-commerce Website" has been created by Admin</p>
+                </div>
+                <div class="message-time">10:05 AM</div>
+              </div>
+              
+              <div class="message">
+                <div class="message-avatar">
+                  <img src="/img/agents/project-manager.png" alt="Project Manager">
+                </div>
+                <div class="message-bubble">
+                  <div class="message-header">
+                    <span class="message-sender">Project Manager</span>
+                    <span class="message-time">10:06 AM</span>
+                  </div>
+                  <div class="message-content">
+                    <p>I've received the project requirements for an e-commerce website. Let me break this down into components that we need to address:</p>
+                    <ol>
+                      <li>Frontend UI/UX design</li>
+                      <li>Product catalog and search functionality</li>
+                      <li>User authentication system</li>
+                      <li>Shopping cart and checkout process</li>
+                      <li>Payment integration</li>
+                      <li>Order management system</li>
+                    </ol>
+                    <p>@Architect, could you please create an initial system architecture that addresses these requirements?</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="message">
+                <div class="message-avatar">
+                  <img src="/img/agents/architect.png" alt="Architect">
+                </div>
+                <div class="message-bubble">
+                  <div class="message-header">
+                    <span class="message-sender">Architect</span>
+                    <span class="message-time">10:08 AM</span>
+                  </div>
+                  <div class="message-content">
+                    <p>I'll design a system architecture for the e-commerce platform. Based on the requirements, I recommend a microservices approach with the following components:</p>
+                    
+                    <div class="code-block">
+                      <pre><code>E-Commerce System Architecture:
+
+1. Frontend Layer:
+   - React.js SPA for customer-facing storefront
+   - Next.js for improved SEO and performance
+   - Admin dashboard using React with Material UI
+
+2. API Gateway:
+   - Express.js for routing and request handling
+   - Authentication middleware
+   - Rate limiting and request validation
+
+3. Microservices:
+   - User Service (authentication, profiles)
+   - Product Service (catalog, search, categories)
+   - Cart Service (shopping cart management)
+   - Order Service (order processing, history)
+   - Payment Service (payment processor integration)
+   - Notification Service (emails, alerts)
+
+4. Database Layer:
+   - MongoDB for product catalog and user data
+   - PostgreSQL for transactional data (orders, payments)
+   - Redis for caching and session management</code></pre>
+                    </div>
+                    
+                    <p>@Frontend, could you start working on the UI components for the storefront while I finalize the API specifications?</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="message">
+                <div class="message-avatar">
+                  <img src="/img/agents/frontend.png" alt="Frontend">
+                </div>
+                <div class="message-bubble">
+                  <div class="message-header">
+                    <span class="message-sender">Frontend</span>
+                    <span class="message-time">10:12 AM</span>
+                  </div>
+                  <div class="message-content">
+                    <p>I'll start on the UI components for the storefront. Here's my proposed component hierarchy:</p>
+                    
+                    <div class="image-attachment">
+                      <img src="/img/component-hierarchy.png" alt="Component Hierarchy">
+                    </div>
+                    
+                    <p>I'll create reusable components for product cards, navigation, filters, and cart items. For the design system, I suggest using Tailwind CSS for styling with a custom color palette to match the brand.</p>
+                    
+                    <p>@Content, do you have any brand guidelines or copywriting we should incorporate into the UI?</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="message you">
+                <div class="message-avatar">
+                  <img src="/img/user-avatar.png" alt="You">
+                </div>
+                <div class="message-bubble">
+                  <div class="message-header">
+                    <span class="message-sender">You</span>
+                    <span class="message-time">10:15 AM</span>
+                  </div>
+                  <div class="message-content">
+                    <p>Great progress so far! For the product catalog, can we make sure it supports filtering by multiple attributes (size, color, price range, etc.)? Also, I'd like the architecture to support internationalization from the start.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="message">
+                <div class="message-avatar">
+                  <img src="/img/agents/architect.png" alt="Architect">
+                </div>
+                <div class="message-bubble">
+                  <div class="message-header">
+                    <span class="message-sender">Architect</span>
+                    <span class="message-time">10:18 AM</span>
+                  </div>
+                  <div class="message-content">
+                    <p>Absolutely! I'll update the architecture to include:</p>
+                    
+                    <ol>
+                      <li>Advanced filtering capabilities in the Product Service, with a dedicated search index using Elasticsearch for faceted search</li>
+                      <li>Internationalization support with:</li>
+                      <ul>
+                        <li>Multi-language content storage in the database</li>
+                        <li>i18n middleware for text translations</li>
+                        <li>Currency conversion services</li>
+                        <li>Regional tax and shipping calculation</li>
+                      </ul>
+                    </ol>
+                    
+                    <p>@Backend, once I finalize these updates, can you start setting up the product service with the advanced filtering capabilities?</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="chat-footer">
+            <div class="message-composer">
+              <div class="composer-tools">
+                <button class="tool-btn" title="Format Text">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"></path><path d="M9 20h6"></path><path d="M12 4v16"></path></svg>
+                </button>
+                <button class="tool-btn" title="Attach File">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path></svg>
+                </button>
+                <button class="tool-btn" title="Add Code Block">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                </button>
+                <button class="tool-btn" title="Add Emoji">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+                </button>
+              </div>
+              
+              <textarea placeholder="Type a message..."></textarea>
+              
+              <div class="composer-actions">
+                <button class="send-btn" title="Send Message">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"></path><path d="M22 2 11 13"></path></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Agent information sidebar -->
+        <div class="agent-info-sidebar">
+          <div class="sidebar-header">
+            <h2>Project Information</h2>
+            <button class="close-sidebar-btn">×</button>
+          </div>
+          
+          <div class="sidebar-content">
+            <div class="project-info">
+              <h3>E-commerce Website</h3>
+              <p class="project-description">
+                A full-featured e-commerce platform with product catalog, user accounts, shopping cart, and payment processing.
+              </p>
+              
+              <div class="info-section">
+                <h4>Status</h4>
+                <span class="status-badge in-progress">In Progress</span>
+              </div>
+              
+              <div class="info-section">
+                <h4>Timeline</h4>
+                <p>Started: March 1, 2025</p>
+                <p>Deadline: April 15, 2025</p>
+              </div>
+              
+              <div class="info-section">
+                <h4>Participating Agents</h4>
+                <ul class="agent-list">
+                  <li class="agent-item">
+                    <img src="/img/agents/project-manager.png" alt="Project Manager">
+                    <span>Project Manager</span>
+                  </li>
+                  <li class="agent-item">
+                    <img src="/img/agents/architect.png" alt="Architect">
+                    <span>Architect</span>
+                  </li>
+                  <li class="agent-item">
+                    <img src="/img/agents/frontend.png" alt="Frontend">
+                    <span>Frontend</span>
+                  </li>
+                  <li class="agent-item">
+                    <img src="/img/agents/backend.png" alt="Backend">
+                    <span>Backend</span>
+                  </li>
+                  <li class="agent-item">
+                    <img src="/img/agents/content.png" alt="Content">
+                    <span>Content</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div class="info-section">
+                <h4>Recent Files</h4>
+                <ul class="file-list">
+                  <li class="file-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <span>System Architecture.pdf</span>
+                  </li>
+                  <li class="file-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <span>Component Hierarchy.png</span>
+                  </li>
+                  <li class="file-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                    <span>Database Schema.json</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Scripts -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/conversations.js"></script>
+</body>
+</html>

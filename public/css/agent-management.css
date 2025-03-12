@@ -1,0 +1,276 @@
+/* Agent Management Styles */
+
+/* Agents Container Layout */
+.agents-container {
+  display: flex;
+  height: calc(100vh - 100px);
+}
+
+/* Sidebar */
+.agent-sidebar {
+  width: 300px;
+  background-color: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  margin-right: 24px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.sidebar-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar-header h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.sidebar-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.search-box {
+  display: flex;
+  margin-bottom: 16px;
+}
+
+.search-box input {
+  flex-grow: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+}
+
+.search-btn {
+  margin-left: 8px;
+  border: none;
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.filter-options {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-options select {
+  padding: 8px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  background-color: white;
+}
+
+/* Agent List */
+.agent-list {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.agent-list-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: relative;
+}
+
+.agent-list-item:hover {
+  background-color: rgba(67, 97, 238, 0.05);
+}
+
+.agent-list-item.selected {
+  background-color: rgba(67, 97, 238, 0.1);
+  border-left: 3px solid var(--primary-color);
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 12px;
+}
+
+.status-indicator.active {
+  background-color: #0ca678;
+}
+
+.status-indicator.inactive {
+  background-color: #adb5bd;
+}
+
+.agent-info {
+  flex-grow: 1;
+}
+
+.agent-info h3 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.agent-info p {
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.model-badge {
+  font-size: 0.7rem;
+  padding: 3px 6px;
+  border-radius: 20px;
+  color: white;
+  font-weight: 500;
+}
+
+.model-badge.claude {
+  background-color: #7950f2;
+}
+
+.model-badge.gpt {
+  background-color: #20c997;
+}
+
+/* Agent Details Panel */
+.agent-details-panel {
+  flex-grow: 1;
+  background-color: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow-y: auto;
+}
+
+.agent-details {
+  padding: 24px;
+}
+
+.agent-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.agent-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-right: 16px;
+}
+
+.agent-header .model-badge {
+  margin-right: 10px;
+}
+
+.detail-item {
+  margin-bottom: 24px;
+}
+
+.detail-item h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #495057;
+}
+
+.detail-item ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.detail-item li {
+  margin-bottom: 5px;
+}
+
+.detail-item pre {
+  background-color: #f8f9fa;
+  padding: 16px;
+  border-radius: var(--radius-sm);
+  font-family: monospace;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  border: 1px solid #e9ecef;
+  margin-top: 8px;
+}
+
+.agent-actions {
+  display: flex;
+  gap: 12px;
+}
+
+/* Test Agent Dialog */
+.test-response-area {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  margin-top: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.test-response-area pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.test-response-area .loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  color: #6c757d;
+}
+
+.test-response-area .error {
+  color: var(--danger-color);
+  padding: 12px;
+}
+
+.response-container {
+  margin-top: 20px;
+}
+
+.response-container h3 {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .agents-container {
+    flex-direction: column;
+    height: auto;
+  }
+  
+  .agent-sidebar {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 24px;
+    max-height: 400px;
+  }
+  
+  .agent-details-panel {
+    height: auto;
+  }
+}

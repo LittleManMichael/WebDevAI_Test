@@ -1,17 +1,66 @@
-# AI Agent Workforce Platform
+# AI Agent Workforce Platform (Development Status)
 
-A custom platform that enables AI agents to collaboratively build websites and web applications with minimal human effort. The system creates a workforce of specialized AI agents that communicate with each other, with conversations visible in a Teams-like chat interface.
+A platform designed to enable AI agents to collaboratively build websites and web applications with minimal human effort. The system creates a workforce of specialized AI agents that communicate with each other, with conversations visible in a Teams-like chat interface.
 
-## Features
+## Current Project Status: INCOMPLETE/UNDER DEVELOPMENT
 
-- **Specialized Agent Roles**: Project Manager, Architect, Frontend Developer, Backend Developer, Content Specialist, and Testing Specialist
-- **Real-time Communication**: Agents can communicate with each other and the human user
-- **Project Management**: Create and track web development projects
-- **Task Assignment**: Break down projects into tasks assigned to specialized agents
-- **Interactive Dashboard**: Monitor project progress, agent workload, and activities
-- **Conversation Interface**: Teams-like chat to observe and participate in agent discussions
+This project is currently in an early development phase and is **not yet functional**. The codebase represents a foundation and architecture for the planned system but requires significant additional work before it can be deployed or used.
 
-## Getting Started
+### What's Implemented
+
+- **Architecture Design**: Overall system architecture with modular component design
+- **Database Models**: Schema definitions for agents, projects, tasks, conversations, etc.
+- **API Route Structure**: Basic routing framework for the RESTful API endpoints
+- **Controller Patterns**: Foundational controller logic (though many functions need additional implementation)
+- **Socket.io Setup**: Initial WebSocket configuration for real-time communication
+- **UI Mockups**: HTML/CSS templates for the front-end interface
+- **Agent Templates**: Definitions for specialized AI agent roles and system prompts
+
+### What Needs To Be Completed
+
+1. **Authentication System**: 
+   - Complete JWT implementation
+   - Add user registration and login routes
+   - Implement proper authentication checks
+
+2. **AI Integration**:
+   - Finalize LLM API integrations
+   - Implement prompt engineering for agent collaboration
+   - Add error handling and retry logic for API calls
+
+3. **Frontend Development**:
+   - Implement React components for better state management
+   - Connect frontend to backend API and WebSockets
+   - Complete UI interactivity and data binding
+
+4. **File Management**:
+   - Complete upload/download functionality
+   - Implement file generation features
+   - Setup proper directory permissions
+
+5. **Testing**:
+   - Add unit and integration tests
+   - Implement API endpoint testing
+   - Add validation for database operations
+
+6. **Deployment Configuration**:
+   - Complete Docker configuration
+   - Setup CI/CD pipeline
+   - Add monitoring and logging
+
+7. **Documentation**:
+   - Create API documentation
+   - Add user guides and tutorials
+   - Document system architecture
+
+8. **Utility Scripts**:
+   - Implement backup system
+   - Complete system prompt generation
+   - Add data migration tools
+
+## Getting Started (For Developers)
+
+> **Note**: These instructions are for development and exploration purposes only. The application is not yet functional.
 
 ### Prerequisites
 
@@ -40,38 +89,25 @@ cp .env.example .env
 
 4. Edit the `.env` file with your API keys and configuration
 
-5. Start the application
+5. Start the application (for development exploration only)
 ```bash
 npm run dev
 ```
 
-6. Open your browser and navigate to `http://localhost:3000`
+## Contributing
 
-## Usage
+This project is currently in early development. If you're interested in contributing, please check back later when we've established contribution guidelines and the codebase is more stable.
 
-1. **Create Agents**: Start by reviewing and potentially customizing the pre-configured agent templates
-2. **Start a Project**: Create a new project with specific requirements
-3. **Monitor Progress**: Watch as agents collaborate to build your website/application
-4. **Provide Feedback**: Intervene in conversations when needed to guide the direction
+## Future Capabilities
 
-## Architecture
+When completed, the platform aims to provide:
 
-The platform consists of several key components:
-
-- **Frontend**: React-based user interface with dashboard, agent management, and conversation views
-- **Backend**: Node.js/Express API handling agent communication and project management
-- **Database**: MongoDB storing agents, projects, tasks, conversations, and files
-- **AI Integration**: Connections to Claude and GPT APIs for agent intelligence
-- **Real-time Communication**: Socket.io for live updates and agent conversations
-
-## Extending the Platform
-
-You can extend the platform by:
-
-1. **Adding New Agent Types**: Create new specialized roles in the agent templates
-2. **Customizing System Prompts**: Refine how agents behave and communicate
-3. **Adding Integrations**: Connect with external services like GitHub, Vercel, etc.
-4. **Enhancing Visualization**: Add more charts and metrics to the dashboard
+- **Specialized Agent Roles**: Project Manager, Architect, Frontend Developer, Backend Developer, Content Specialist, and Testing Specialist
+- **Real-time Communication**: Agents communicating with each other and the human user
+- **Project Management**: Creation and tracking of web development projects
+- **Task Assignment**: Breaking down projects into tasks assigned to specialized agents
+- **Interactive Dashboard**: Monitoring project progress, agent workload, and activities
+- **Conversation Interface**: Teams-like chat to observe and participate in agent discussions
 
 ## License
 

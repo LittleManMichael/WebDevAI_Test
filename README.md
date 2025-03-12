@@ -94,6 +94,18 @@ cp .env.example .env
 npm run dev
 ```
 
+## Development Process
+
+This project is being developed with assistance from Claude, Anthropic's AI assistant. While this collaborative approach allows for rapid development of the codebase architecture and foundational elements, interested parties should understand that:
+
+1. The AI-assisted development process may introduce occasional inconsistencies or implementation gaps that require human review and correction.
+
+2. Due diligence is being applied throughout the development process, with careful consideration of security practices, scalability concerns, and code quality.
+
+3. Human oversight remains essential, particularly for critical components like authentication, data handling, and external API integrations.
+
+This approach represents an exploration of AI-human collaborative software development, demonstrating both the capabilities and current limitations of such partnerships.
+
 ## Contributing
 
 This project is currently in early development. If you're interested in contributing, please check back later when we've established contribution guidelines and the codebase is more stable.

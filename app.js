@@ -27,6 +27,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev')); // Request logging
 app.use(express.static(path.join(__dirname, 'public')));
 
+// Snippet showing how auth routes should be connected in app.js
+const authRoutes = require('./routes/auth');
+
+// ...
+
 // API routes
 app.use('/api', apiRoutes);
 

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - AI Agent Workforce</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .auth-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #f0f4f8;
+    }
+    
+    .auth-card {
+      width: 450px;
+      background-color: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 2rem;
+    }
+    
+    .auth-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .auth-header .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    
+    .auth-header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .auth-header p {
+      color: #6c757d;
+    }
+    
+    .auth-form .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .form-row .form-group {
+      flex: 1;
+    }
+    
+    .auth-form .form-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .auth-form .form-actions .btn {
+      width: 100%;
+      padding: 0.75rem;
+    }
+    
+    .auth-footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+    
+    .auth-footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .auth-error {
+      background-color: #ffebee;
+      color: #d32f2f;
+      padding: 0.75rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+    
+    .auth-success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      padding: 0.75rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+    
+    .password-requirements {
+      font-size: 0.8rem;
+      color: #6c757d;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="logo">
+          <img src="/img/logo.svg" alt="AI Agent Workforce" width="48" height="48">
+        </div>
+        <h1>Create Your Account</h1>
+        <p>Join AI Agent Workforce Platform</p>
+      </div>
+      
+      <div id="auth-error" class="auth-error"></div>
+      <div id="auth-success" class="auth-success"></div>
+      
+      <form id="register-form" class="auth-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" required placeholder="John">
+          </div>
+          
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required placeholder="Doe">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required placeholder="johndoe">
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required placeholder="••••••••">
+          <div class="password-requirements">
+            Password must be at least 8 characters long and include a mix of letters, numbers, and special characters.
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="••••••••">
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Create Account</button>
+        </div>
+      </form>
+      
+      <div class="auth-footer">
+        <p>Already have an account? <a href="/login.html">Sign in</a></p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const registerForm = document.getElementById('register-form');
+      const authError = document.getElementById('auth-error');
+      const authSuccess = document.getElementById('auth-success');
+      
+      // Check if user is already logged in
+      const token = localStorage.getItem('auth_token');
+      if (token) {
+        // Redirect to dashboard
+        window.location.href = '/dashboard.html';
+      }
+      
+      registerForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        // Hide any previous messages
+        authError.style.display = 'none';
+        authSuccess.style.display = 'none';
+        
+        const firstName = document.getElementById('firstName').value;
+        const lastName = document.getElementById('lastName').value;
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        
+        // Basic validation
+        if (password !== confirmPassword) {
+          authError.textContent = 'Passwords do not match.';
+          authError.style.display = 'block';
+          return;
+        }
+        
+        if (password.length < 8) {
+          authError.textContent = 'Password must be at least 8 characters long.';
+          authError.style.display = 'block';
+          return;
+        }
+        
+        try {
+          // Send registration request
+          const response = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+              firstName, 
+              lastName, 
+              username, 
+              email, 
+              password 
+            })
+          });
+          
+          const data = await response.json();
+          
+          if (response.ok) {
+            // Show success message
+            authSuccess.textContent = 'Registration successful! Redirecting to login...';
+            authSuccess.style.display = 'block';
+            
+            // Clear form
+            registerForm.reset();
+            
+            // Store token if provided immediately
+            if (data.token) {
+              localStorage.setItem('auth_token', data.token);
+              localStorage.setItem('user_info', JSON.stringify(data.user));
+              
+              // Redirect to dashboard
+              setTimeout(() => {
+                window.location.href = '/dashboard.html';
+              }, 2000);
+            } else {
+              // Redirect to login page
+              setTimeout(() => {
+                window.location.href = '/login.html';
+              }, 2000);
+            }
+          } else {
+            // Show error message
+            authError.textContent = data.message || 'Registration failed. Please try again.';
+            authError.style.display = 'block';
+          }
+        } catch (error) {
+          console.error('Registration error:', error);
+          authError.textContent = 'An error occurred. Please try again later.';
+          authError.style.display = 'block';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

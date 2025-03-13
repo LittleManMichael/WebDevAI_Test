@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - AI Agent Workforce</title>
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    .auth-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: #f0f4f8;
+    }
+    
+    .auth-card {
+      width: 400px;
+      background-color: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 2rem;
+    }
+    
+    .auth-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    
+    .auth-header .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+    }
+    
+    .auth-header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .auth-header p {
+      color: #6c757d;
+    }
+    
+    .auth-form .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .auth-form .form-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+    
+    .auth-form .form-actions .btn {
+      width: 100%;
+      padding: 0.75rem;
+    }
+    
+    .auth-footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+    }
+    
+    .auth-footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .auth-error {
+      background-color: #ffebee;
+      color: #d32f2f;
+      padding: 0.75rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="logo">
+          <img src="/img/logo.svg" alt="AI Agent Workforce" width="48" height="48">
+        </div>
+        <h1>AI Agent Workforce</h1>
+        <p>Sign in to your account</p>
+      </div>
+      
+      <div id="auth-error" class="auth-error">
+        Invalid email or password. Please try again.
+      </div>
+      
+      <form id="login-form" class="auth-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required placeholder="••••••••">
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Sign In</button>
+          <a href="/forgot-password.html" class="btn text-btn">Forgot Password?</a>
+        </div>
+      </form>
+      
+      <div class="auth-footer">
+        <p>Don't have an account? <a href="/register.html">Create an account</a></p>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginForm = document.getElementById('login-form');
+      const authError = document.getElementById('auth-error');
+      
+      // Check if user is already logged in
+      const token = localStorage.getItem('auth_token');
+      if (token) {
+        // Redirect to dashboard
+        window.location.href = '/dashboard.html';
+      }
+      
+      loginForm.addEventListener('submit', async function(event) {
+        event.preventDefault();
+        
+        // Hide any previous error
+        authError.style.display = 'none';
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        
+        try {
+          // Send login request
+          const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+          });
+          
+          const data = await response.json();
+          
+          if (response.ok) {
+            // Store token in localStorage
+            localStorage.setItem('auth_token', data.token);
+            
+            // Store user info
+            localStorage.setItem('user_info', JSON.stringify(data.user));
+            
+            // Redirect to dashboard
+            window.location.href = '/dashboard.html';
+          } else {
+            // Show error message
+            authError.textContent = data.message || 'Login failed. Please try again.';
+            authError.style.display = 'block';
+          }
+        } catch (error) {
+          console.error('Login error:', error);
+          authError.textContent = 'An error occurred. Please try again later.';
+          authError.style.display = 'block';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

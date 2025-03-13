@@ -1,4 +1,4 @@
-// routes/api.js
+// Update needed for routes/api.js
 const express = require('express');
 const router = express.Router();
 
@@ -9,6 +9,7 @@ const taskRoutes = require('./tasks');
 const conversationRoutes = require('./conversations');
 const messageRoutes = require('./messages');
 const settingsRoutes = require('./settings');
+const authRoutes = require('./auth'); // Add this line
 
 // Import controllers for direct routes
 const Activity = require('../models/activity');
@@ -25,6 +26,7 @@ router.use('/tasks', taskRoutes);
 router.use('/conversations', conversationRoutes);
 router.use('/messages', messageRoutes);
 router.use('/settings', settingsRoutes);
+router.use('/auth', authRoutes); // Add this line
 
 // Stats route for dashboard
 router.get('/stats', async (req, res) => {

@@ -1,38 +1,66 @@
 // middleware/auth.js
 const jwt = require('jsonwebtoken');
+const User = require('../models/user');
+
+// Get the JWT secret from environment variable or use a default for development
+const JWT_SECRET = process.env.JWT_SECRET || 'your-default-secret-key';
+// Set token expiration (24 hours by default)
+const TOKEN_EXPIRY = process.env.TOKEN_EXPIRY || '24h';
 
 /**
  * Authentication middleware
  * 
  * Verifies JWT tokens for protected routes
- * For this initial implementation, we'll use a simple JWT-based approach
- * In a production environment, consider using refresh tokens, token rotation, etc.
  */
 const authMiddleware = {
   /**
    * Verify authentication token
    * This middleware can be used on any route that requires authentication
    */
-  verifyToken: (req, res, next) => {
-    // Get auth header
-    const authHeader = req.headers.authorization;
-    
-    // Check if auth header exists and has the right format
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({
-        message: 'Authentication required. Please provide a valid token.'
-      });
-    }
-    
-    // Extract the token
-    const token = authHeader.split(' ')[1];
-    
+  verifyToken: async (req, res, next) => {
     try {
+      // Get auth header
+      const authHeader = req.headers.authorization;
+      
+      // Check if auth header exists and has the right format
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({
+          message: 'Authentication required. Please provide a valid token.'
+        });
+      }
+      
+      // Extract the token
+      const token = authHeader.split(' ')[1];
+      
       // Verify the token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-default-secret-key');
+      const decoded = jwt.verify(token, JWT_SECRET);
+      
+      // Check if token is about to expire (less than 1 hour remaining)
+      const currentTime = Math.floor(Date.now() / 1000);
+      const tokenExp = decoded.exp;
       
       // Add user data to request
       req.user = decoded;
+      
+      // Find user in database to make sure they still exist and are active
+      const user = await User.findById(decoded.id).select('-password');
+      
+      // If user doesn't exist or isn't active
+      if (!user || !user.active) {
+        return res.status(401).json({
+          message: 'User account is inactive or has been deleted.'
+        });
+      }
+      
+      // Add full user object to request
+      req.userDetails = user;
+      
+      // If token is about to expire, generate a new one
+      if (tokenExp - currentTime < 3600) { // Less than 1 hour left
+        const newToken = authMiddleware.generateToken(user);
+        // Add new token to response headers
+        res.setHeader('X-New-Token', newToken);
+      }
       
       // Continue to the next middleware/controller
       next();
@@ -45,8 +73,14 @@ const authMiddleware = {
         });
       }
       
-      return res.status(403).json({
-        message: 'Invalid token. Access denied.'
+      if (error.name === 'JsonWebTokenError') {
+        return res.status(403).json({
+          message: 'Invalid token. Access denied.'
+        });
+      }
+      
+      return res.status(500).json({
+        message: 'Authentication error. Please try again later.'
       });
     }
   },
@@ -57,24 +91,30 @@ const authMiddleware = {
    * If a valid token is provided, it adds user data to the request
    * If no token or invalid token is provided, it continues without user data
    */
-  optionalAuth: (req, res, next) => {
-    // Get auth header
-    const authHeader = req.headers.authorization;
-    
-    // If no auth header or wrong format, continue without authentication
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return next();
-    }
-    
-    // Extract the token
-    const token = authHeader.split(' ')[1];
-    
+  optionalAuth: async (req, res, next) => {
     try {
+      // Get auth header
+      const authHeader = req.headers.authorization;
+      
+      // If no auth header or wrong format, continue without authentication
+      if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return next();
+      }
+      
+      // Extract the token
+      const token = authHeader.split(' ')[1];
+      
       // Verify the token
-      const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-default-secret-key');
+      const decoded = jwt.verify(token, JWT_SECRET);
       
       // Add user data to request
       req.user = decoded;
+      
+      // Find user in database
+      const user = await User.findById(decoded.id).select('-password');
+      if (user && user.active) {
+        req.userDetails = user;
+      }
     } catch (error) {
       // Don't return an error, just continue without user data
       console.warn('Optional auth token invalid:', error.message);
@@ -124,8 +164,8 @@ const authMiddleware = {
     // Sign token with secret key and set expiration
     return jwt.sign(
       payload,
-      process.env.JWT_SECRET || 'your-default-secret-key',
-      { expiresIn: '24h' }  // Token expires in 24 hours
+      JWT_SECRET,
+      { expiresIn: TOKEN_EXPIRY }
     );
   }
 };

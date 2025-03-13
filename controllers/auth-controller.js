@@ -15,6 +15,28 @@ const authController = {
     try {
       const { username, email, password, firstName, lastName } = req.body;
       
+      // Input validation
+      if (!username || !email || !password) {
+        return res.status(400).json({ 
+          message: 'Username, email, and password are required' 
+        });
+      }
+      
+      // Email format validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        return res.status(400).json({ 
+          message: 'Invalid email format' 
+        });
+      }
+      
+      // Password strength validation
+      if (password.length < 8) {
+        return res.status(400).json({ 
+          message: 'Password must be at least 8 characters long' 
+        });
+      }
+      
       // Check if user already exists
       const existingUser = await User.findOne({ 
         $or: [{ email }, { username }] 
@@ -49,7 +71,7 @@ const authController = {
       });
     } catch (error) {
       console.error('Error registering user:', error);
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: 'Registration failed. Please try again.' });
     }
   },
   
@@ -59,6 +81,13 @@ const authController = {
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
+      
+      // Input validation
+      if (!email || !password) {
+        return res.status(400).json({ 
+          message: 'Email and password are required' 
+        });
+      }
       
       // Find user by email
       const user = await User.findOne({ email });
@@ -93,7 +122,7 @@ const authController = {
       });
     } catch (error) {
       console.error('Error during login:', error);
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: 'Login failed. Please try again.' });
     }
   },
   
@@ -102,6 +131,11 @@ const authController = {
    */
   getProfile: async (req, res) => {
     try {
+      // req.user is set by the verifyToken middleware
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({ message: 'Authentication required' });
+      }
+      
       const user = await User.findById(req.user.id).select('-password');
       
       if (!user) {
@@ -111,7 +145,7 @@ const authController = {
       res.json(user);
     } catch (error) {
       console.error('Error fetching user profile:', error);
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: 'Failed to retrieve profile. Please try again.' });
     }
   },
   
@@ -120,6 +154,11 @@ const authController = {
    */
   updateProfile: async (req, res) => {
     try {
+      // req.user is set by the verifyToken middleware
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({ message: 'Authentication required' });
+      }
+      
       const { firstName, lastName, username } = req.body;
       
       // Create update object with only allowed fields
@@ -157,7 +196,7 @@ const authController = {
       });
     } catch (error) {
       console.error('Error updating user profile:', error);
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: 'Failed to update profile. Please try again.' });
     }
   },
   
@@ -166,7 +205,21 @@ const authController = {
    */
   changePassword: async (req, res) => {
     try {
+      // req.user is set by the verifyToken middleware
+      if (!req.user || !req.user.id) {
+        return res.status(401).json({ message: 'Authentication required' });
+      }
+      
       const { currentPassword, newPassword } = req.body;
+      
+      // Validate input
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({ message: 'Current password and new password are required' });
+      }
+      
+      if (newPassword.length < 8) {
+        return res.status(400).json({ message: 'New password must be at least 8 characters long' });
+      }
       
       // Find user
       const user = await User.findById(req.user.id);
@@ -189,7 +242,7 @@ const authController = {
       res.json({ message: 'Password changed successfully' });
     } catch (error) {
       console.error('Error changing password:', error);
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: 'Failed to change password. Please try again.' });
     }
   },
   
@@ -199,6 +252,10 @@ const authController = {
   forgotPassword: async (req, res) => {
     try {
       const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ message: 'Email is required' });
+      }
       
       // Find user by email
       const user = await User.findOne({ email });
@@ -224,7 +281,7 @@ const authController = {
       });
     } catch (error) {
       console.error('Error initiating password reset:', error);
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: 'Failed to initiate password reset. Please try again.' });
     }
   },
   
@@ -234,6 +291,14 @@ const authController = {
   resetPassword: async (req, res) => {
     try {
       const { token, newPassword } = req.body;
+      
+      if (!token || !newPassword) {
+        return res.status(400).json({ message: 'Reset token and new password are required' });
+      }
+      
+      if (newPassword.length < 8) {
+        return res.status(400).json({ message: 'New password must be at least 8 characters long' });
+      }
       
       // Find user by reset token and check if token is valid
       const user = await User.findOne({
@@ -254,7 +319,7 @@ const authController = {
       res.json({ message: 'Password has been reset successfully' });
     } catch (error) {
       console.error('Error resetting password:', error);
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: 'Failed to reset password. Please try again.' });
     }
   },
   
@@ -272,7 +337,7 @@ const authController = {
       res.json(users);
     } catch (error) {
       console.error('Error fetching users:', error);
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: 'Failed to fetch users. Please try again.' });
     }
   },
   
@@ -287,6 +352,14 @@ const authController = {
       }
       
       const { userId, active } = req.body;
+      
+      if (!userId) {
+        return res.status(400).json({ message: 'User ID is required' });
+      }
+      
+      if (typeof active !== 'boolean') {
+        return res.status(400).json({ message: 'Active status must be a boolean' });
+      }
       
       const user = await User.findByIdAndUpdate(
         userId,
@@ -304,7 +377,7 @@ const authController = {
       });
     } catch (error) {
       console.error('Error updating user status:', error);
-      res.status(500).json({ message: error.message });
+      res.status(500).json({ message: 'Failed to update user status. Please try again.' });
     }
   }
 };

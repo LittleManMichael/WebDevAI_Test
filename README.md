@@ -1,34 +1,75 @@
-# AI Agent Workforce Platform (Local Version)
+# AI Agent Workforce Platform
 
-A local platform that enables AI agents to collaboratively build websites and web applications with minimal human effort. The system creates a workforce of specialized AI agents that communicate with each other, with conversations visible in a Teams-like chat interface.
+A platform designed to enable AI agents to collaboratively build websites and web applications with minimal human effort. The system creates a workforce of specialized AI agents that communicate with each other, with conversations visible in a Teams-like chat interface.
 
-## How It Works
+## Current Project Status: UNDER DEVELOPMENT
 
-The AI Agent Workforce is designed to run locally on your machine, allowing you to manage web development projects through a team of specialized AI agents. Each agent has a specific role, expertise, and responsibility within the project. You can observe their discussions and collaborate with them through a simple chat interface.
+This project is currently in development and is **not yet fully functional**. The codebase represents the foundation and architecture for the planned system, and requires additional implementation work before it can be used effectively.
 
-## Current Project Status
+## Concept
 
-This project is a single-user local application that provides a collaborative AI environment for web development. It uses MongoDB for local data storage and integrates with OpenAI and Anthropic APIs for AI functionality.
+The AI Agent Workforce is designed to run locally on your machine, creating a collaborative environment where specialized AI agents work together on web development projects. Each agent has a specific role, expertise, and responsibilities. As the human operator, you can observe their discussions and collaborate with them through a simple chat interface.
 
-## Features
+## Features (Planned)
 
 - **Specialized Agent Roles**: Project Manager, Architect, Frontend Developer, Backend Developer, Content Specialist, and Testing Specialist
-- **Real-time Communication**: Agents communicating with each other and you, the human user
+- **Real-time Communication**: Agents communicating with each other and the human user
 - **Project Management**: Creation and tracking of web development projects
 - **Task Assignment**: Breaking down projects into tasks assigned to specialized agents
 - **Interactive Dashboard**: Monitoring project progress, agent workload, and activities
 - **Conversation Interface**: Teams-like chat to observe and participate in agent discussions
 
-## Getting Started
+## What's Implemented
 
-### Prerequisites
+- **Architecture Design**: Overall system architecture with modular component design
+- **Database Models**: Schema definitions for agents, projects, tasks, conversations, etc.
+- **API Route Structure**: Basic routing framework for the RESTful API endpoints
+- **Controller Patterns**: Foundational controller logic (though many functions need additional implementation)
+- **Socket.io Setup**: Initial WebSocket configuration for real-time communication
+- **UI Mockups**: HTML/CSS templates for the front-end interface
+- **Agent Templates**: Definitions for specialized AI agent roles and system prompts
+
+## What Needs To Be Completed
+
+1. **Authentication System**: 
+   - Simplify for single-user local use
+   - Implement auto-login for local environment
+
+2. **AI Integration**:
+   - Finalize LLM API integrations
+   - Implement prompt engineering for agent collaboration
+   - Add error handling and retry logic for API calls
+
+3. **Frontend Development**:
+   - Connect frontend to backend API and WebSockets
+   - Complete UI interactivity and data binding
+
+4. **File Management**:
+   - Complete upload/download functionality
+   - Implement file generation features
+   - Setup proper directory permissions
+
+5. **Testing**:
+   - Add unit and integration tests
+   - Implement API endpoint testing
+   - Add validation for database operations
+
+6. **Documentation**:
+   - Complete user guides and tutorials
+   - Document system architecture
+
+7. **Utility Scripts**:
+   - Implement backup system
+   - Complete system prompt generation
+
+## Prerequisites (For Development)
 
 - Node.js (v18 or higher)
-- MongoDB (local installation)
+- MongoDB
 - Anthropic Claude API key
 - OpenAI API key
 
-### Installation
+## Installation (For Development Only)
 
 1. Clone the repository
 ```bash
@@ -47,107 +88,27 @@ cp .env.example .env
 ```
 
 4. Edit the `.env` file with your API keys and configuration
-```
-# Server Configuration
-PORT=3000
-NODE_ENV=development
 
-# Database Configuration (Local default)
-MONGODB_URI=mongodb://localhost:27017/ai-agent-workforce
-
-# API Keys
-OPENAI_API_KEY=your_openai_key_here
-ANTHROPIC_API_KEY=your_anthropic_key_here
-```
-
-5. Start MongoDB (if not already running)
-```bash
-# On macOS/Linux with homebrew
-brew services start mongodb-community
-
-# On Windows (assuming MongoDB is installed as a service)
-# MongoDB should be running as a service, if not, start it through the Services panel
-```
-
-6. Initialize the database with default data
-```bash
-npm run init-db
-```
-
-7. Start the application
+5. Start the application (for development exploration only)
 ```bash
 npm run dev
 ```
 
-8. Access the application
-Open your browser and navigate to: http://localhost:3000
+## Development Notes
 
-## Usage Guide
+This project is being developed with assistance from AI tools, including Claude. While this collaborative approach allows for rapid development of the codebase architecture and foundational elements, interested parties should understand that:
 
-### Creating a New Project
+1. The development process may introduce occasional inconsistencies or implementation gaps that require review and correction.
 
-1. Navigate to the Dashboard
-2. Click "New Project" button
-3. Fill in project details and select the AI agents you want to include
-4. Click "Start Project"
+2. Due diligence is being applied throughout the development process, with careful consideration of security practices, scalability concerns, and code quality.
 
-The Project Manager agent will automatically create an initial project plan and break down tasks for the other agents.
+3. Human oversight remains essential, particularly for critical components like authentication, data handling, and external API integrations.
 
-### Participating in Conversations
+This approach represents an exploration of AI-human collaborative software development, demonstrating both the capabilities and current limitations of such partnerships.
 
-1. Navigate to the Conversations tab
-2. Select a project or agent conversation
-3. Type your message in the chat input
-4. The appropriate AI agents will respond and collaborate to address your request
+## Contributing
 
-### Monitoring Progress
-
-1. Check the Dashboard for an overview of project status
-2. View the Projects tab for detailed project information
-3. Use the Agent Management section to see each agent's workload and tasks
-
-## Troubleshooting
-
-### MongoDB Connection Issues
-
-If you see MongoDB connection errors:
-- Ensure MongoDB is installed and running locally
-- Check that your MongoDB connection string in the `.env` file is correct
-- Default connection is `mongodb://localhost:27017/ai-agent-workforce`
-
-### API Key Issues
-
-If agents aren't responding:
-- Verify your OpenAI and Anthropic API keys in the `.env` file
-- Ensure your API keys have sufficient quota/credits remaining
-- Check the logs for specific API error messages
-
-### Application Not Starting
-
-If the application fails to start:
-- Ensure Node.js v18+ is installed (`node -v` to check)
-- Verify all dependencies are installed (`npm install`)
-- Check for errors in the console output
-- Ensure MongoDB is running and accessible
-
-## Development
-
-### Project Structure
-
-- `/controllers` - Business logic for handling API requests
-- `/models` - MongoDB data models
-- `/routes` - API route definitions
-- `/public` - Frontend assets and HTML
-- `/services` - Service layers for AI integration
-- `/utils` - Utility functions
-- `/data` - Agent templates and system prompts
-
-### Custom Agents
-
-To modify existing agents or create new ones:
-1. Edit the templates in `/data/agent-templates.js`
-2. Update system prompts in `/data/system-prompts/`
-3. Restart the application to apply changes
+This project is currently in early development. If you're interested in contributing, please check back later when we've established contribution guidelines and the codebase is more stable.
 
 ## License
 

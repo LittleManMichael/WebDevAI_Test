@@ -2,129 +2,93 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
-// Get the JWT secret from environment variable - this should be required in production
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET && process.env.NODE_ENV === 'production') {
-  console.error('WARNING: JWT_SECRET is not set in production environment');
-}
-
-// Default secret for development only, should never be used in production
-const DEV_SECRET = 'dev-secret-key-change-in-production';
-
-// Set token expiration (configurable via environment variable)
-const TOKEN_EXPIRY = process.env.TOKEN_EXPIRY || '24h';
+// Simple secret for local use
+const LOCAL_SECRET = 'local-secret-key-ai-agent-workforce';
 
 /**
- * Authentication middleware
- * 
- * Verifies JWT tokens for protected routes
+ * Simplified authentication middleware for local single-user app
  */
 const authMiddleware = {
   /**
-   * Verify authentication token
-   * This middleware can be used on any route that requires authentication
+   * Verify authentication token or auto-authenticate for local use
+   * This middleware adds a default user to all requests
    */
   verifyToken: async (req, res, next) => {
     try {
       // Get auth header
       const authHeader = req.headers.authorization;
       
-      // Check if auth header exists and has the right format
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({
-          message: 'Authentication required. Please provide a valid token.'
+      // Check if token is provided
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        // Extract and verify the token
+        const token = authHeader.split(' ')[1];
+        
+        try {
+          // Verify token
+          const decoded = jwt.verify(token, process.env.JWT_SECRET || LOCAL_SECRET);
+          req.user = decoded;
+          
+          // Find user in database to confirm they exist
+          const user = await User.findById(decoded.id).select('-password');
+          if (user) {
+            req.userDetails = user;
+            return next();
+          }
+        } catch (tokenError) {
+          // Token verification failed, but we'll still auto-login for local use
+          console.warn('Token verification failed, using default user');
+        }
+      }
+      
+      // If no valid token or verification failed, use the default admin user
+      // This enables auto-login for local use
+      const defaultUser = await User.findOne({ username: 'admin' }).select('-password');
+      
+      if (defaultUser) {
+        // Use existing admin user
+        req.user = {
+          id: defaultUser._id,
+          username: defaultUser.username,
+          role: defaultUser.role
+        };
+        req.userDetails = defaultUser;
+        return next();
+      } else {
+        // No user found - this should not happen in normal operation as the
+        // default user should be created during setup, but we'll handle it anyway
+        console.error('No default admin user found in database');
+        return res.status(500).json({
+          message: 'System error: Default user not found. Please run database initialization.'
         });
       }
-      
-      // Extract the token
-      const token = authHeader.split(' ')[1];
-      
-      // Verify the token
-      const decoded = jwt.verify(token, JWT_SECRET || DEV_SECRET);
-      
-      // Check if token is about to expire (less than 1 hour remaining)
-      const currentTime = Math.floor(Date.now() / 1000);
-      const tokenExp = decoded.exp;
-      
-      // Add user data to request
-      req.user = decoded;
-      
-      // Find user in database to make sure they still exist and are active
-      const user = await User.findById(decoded.id).select('-password');
-      
-      // If user doesn't exist or isn't active
-      if (!user || !user.active) {
-        return res.status(401).json({
-          message: 'User account is inactive or has been deleted.'
-        });
-      }
-      
-      // Add full user object to request
-      req.userDetails = user;
-      
-      // If token is about to expire, generate a new one
-      if (tokenExp - currentTime < 3600) { // Less than 1 hour left
-        const newToken = authMiddleware.generateToken(user);
-        // Add new token to response headers
-        res.setHeader('X-New-Token', newToken);
-      }
-      
-      // Continue to the next middleware/controller
-      next();
     } catch (error) {
-      console.error('Token verification failed:', error.message);
-      
-      if (error.name === 'TokenExpiredError') {
-        return res.status(401).json({
-          message: 'Token has expired. Please login again.'
-        });
-      }
-      
-      if (error.name === 'JsonWebTokenError') {
-        return res.status(403).json({
-          message: 'Invalid token. Access denied.'
-        });
-      }
-      
+      console.error('Auth middleware error:', error);
       return res.status(500).json({
-        message: 'Authentication error. Please try again later.'
+        message: 'Authentication error. Please restart the application.'
       });
     }
   },
   
   /**
    * Optional authentication middleware
-   * This middleware can be used on routes that work with or without authentication
-   * If a valid token is provided, it adds user data to the request
-   * If no token or invalid token is provided, it continues without user data
+   * For local use, this always authenticates with the default user
    */
   optionalAuth: async (req, res, next) => {
     try {
-      // Get auth header
-      const authHeader = req.headers.authorization;
+      // For local use, always authenticate with default user
+      const defaultUser = await User.findOne({ username: 'admin' }).select('-password');
       
-      // If no auth header or wrong format, continue without authentication
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return next();
-      }
-      
-      // Extract the token
-      const token = authHeader.split(' ')[1];
-      
-      // Verify the token
-      const decoded = jwt.verify(token, JWT_SECRET || DEV_SECRET);
-      
-      // Add user data to request
-      req.user = decoded;
-      
-      // Find user in database
-      const user = await User.findById(decoded.id).select('-password');
-      if (user && user.active) {
-        req.userDetails = user;
+      if (defaultUser) {
+        req.user = {
+          id: defaultUser._id,
+          username: defaultUser.username,
+          role: defaultUser.role
+        };
+        req.userDetails = defaultUser;
       }
     } catch (error) {
-      // Don't return an error, just continue without user data
-      console.warn('Optional auth token invalid:', error.message);
+      // Don't stop the request, just continue without user data
+      console.warn('Optional auth error:', error.message);
     }
     
     // Continue to the next middleware/controller
@@ -133,14 +97,14 @@ const authMiddleware = {
 
   /**
    * Admin role verification middleware
-   * Ensures the authenticated user has admin privileges
+   * For local use, this is simplified to check if the user has admin role
    * Must be used after verifyToken middleware
    */
   requireAdmin: (req, res, next) => {
     // Check if user exists (should be added by verifyToken)
     if (!req.user) {
       return res.status(401).json({
-        message: 'Authentication required. Please provide a valid token.'
+        message: 'Authentication required.'
       });
     }
     
@@ -157,11 +121,10 @@ const authMiddleware = {
   
   /**
    * Generate JWT token for a user
-   * Utility function for login and registration routes
+   * Simplified for local use, but maintained for API consistency
    */
   generateToken: (user) => {
     // Create payload with user data
-    // Avoid including sensitive information
     const payload = {
       id: user.id,
       email: user.email,
@@ -172,32 +135,9 @@ const authMiddleware = {
     // Sign token with secret key and set expiration
     return jwt.sign(
       payload,
-      JWT_SECRET || DEV_SECRET,
-      { expiresIn: TOKEN_EXPIRY }
+      process.env.JWT_SECRET || LOCAL_SECRET,
+      { expiresIn: '30d' } // Long expiration for local use
     );
-  },
-  
-  /**
-   * Refresh a user's token
-   * Creates a new token with the same user data
-   */
-  refreshToken: async (oldToken) => {
-    try {
-      // Verify the old token
-      const decoded = jwt.verify(oldToken, JWT_SECRET || DEV_SECRET);
-      
-      // Find the user in the database
-      const user = await User.findById(decoded.id).select('-password');
-      
-      if (!user || !user.active) {
-        throw new Error('User account is inactive or has been deleted');
-      }
-      
-      // Generate a new token
-      return authMiddleware.generateToken(user);
-    } catch (error) {
-      throw error;
-    }
   }
 };
 
